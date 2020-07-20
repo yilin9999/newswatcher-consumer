@@ -1,8 +1,8 @@
-from kafka_consumer.consumer_mongo import NewsKafkaConsumerMongoDB
+from kafka_consumer.consumer_mongo.worker import NewsKafkaConsumerMongo
 
 
 class TestConsumer:
 
     def test_basic(self):
-        consumer_mongodb = NewsKafkaConsumerMongoDB()
+        consumer_mongodb = NewsKafkaConsumerMongo()
         consumer_mongodb.run_consumer()

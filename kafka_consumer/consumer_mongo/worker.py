@@ -1,41 +1,16 @@
 import logging
 import json
-from kafka import KafkaConsumer
-from pymongo import MongoClient
-from pymongo.errors import BulkWriteError
 from kafka_consumer.settings import AppConfig
-from .consumer import NewsKafkaConsumer
+from kafka_consumer.consumer import NewsKafkaConsumer
+from .docs import NewsMongoDoc
 
 logger = logging.getLogger(__name__)
 
-client = MongoClient(AppConfig.MONGO_URI)
-mgdb = client['newswatcher']
 
+class NewsKafkaConsumerMongo(NewsKafkaConsumer):
 
-class NewsMongoDoc:
-    collection = 'news'
-
-    def __repr__(self):
-        return '<NewsMongoDoc title:{0}>'.format(self.title)
-
-    @classmethod
-    def insert_one(self, input_dict):
-        mgdb.db[NewsMongoDoc.collection].insert_one(input_dict)
-
-    @classmethod
-    def insert_many(self, input_array_dict, ordered):
-        mgdb.db[NewsMongoDoc.collection].insert_many(input_array_dict, ordered=ordered)
-
-    @classmethod
-    def count_doc(self, doc_filter={}):
-        return mgdb.db[NewsMongoDoc.collection].count_documents(doc_filter)
-
-
-class NewsKafkaConsumerMongoDB(NewsKafkaConsumer):
-
-    # def __init__(self):
-    #     super().__init__()
-        # self.consumer.config['group_id'] = 'g_mongodb'
+    def __init__(self):
+        super().__init__(group_id='mongo')
 
     def run_consumer(self):
         # logger.info("Start Consumer")
@@ -57,8 +32,6 @@ class NewsKafkaConsumerMongoDB(NewsKafkaConsumer):
             news_init_cnt = NewsMongoDoc.count_doc()
             NewsMongoDoc.insert_many(data, ordered=False)
             news_inc = NewsMongoDoc.count_doc() - news_init_cnt
-        except BulkWriteError as e:
-            logging.error(str(e))
         except Exception as e:
             logging.error(str(e))
 
