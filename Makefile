@@ -13,14 +13,18 @@ poetry-env:
 	poetry install
 	ln -sf $(sh poetry env info -p) venv
 
-run:
+run-consumer:
 	@echo $(TAG)Running app$(END)
-	poetry run python app.py
+	poetry run python autoapp.py start_consumer
 
 lint:
 	@echo $(TAG)Running Lint$(END)
-	poetry run flake8 kafka_consumer app.py --count --ignore=E501,E126
+	poetry run flake8 kafka_consumer autoapp.py --count --ignore=E501,E126
 
 test:
 	@echo $(TAG)Running Unit Test$(END)
 	poetry run pytest tests
+
+init-db:
+	@echo $(TAG)Initialize DB$(END)
+	poetry run python autoapp.py init_sqlite_db
