@@ -13,7 +13,7 @@ poetry-env:
 	poetry install
 	ln -sf $(sh poetry env info -p) venv
 
-run-consumer:
+run-consumer:å
 	@echo $(TAG)Running app$(END)
 	poetry run python autoapp.py start_consumer
 
@@ -27,4 +27,4 @@ test:
 
 init-db:
 	@echo $(TAG)Initialize DB$(END)
-	poetry run python autoapp.py init_sqlite_db
+	poetry run python autoapp.py init_rmdb

@@ -21,9 +21,12 @@ class ProdConfig(Config):
 
 class DevConfig(Config):
     KAFKA_BOOTSTRAP_SERVER = 'localhost:9092'
-    KAFKA_TOPIC_NEWS = 'test_mongodb'
+    KAFKA_TOPIC_NEWS = 'tests'
     MONGO_URI = 'mongodb://david:newsgogogo@localhost:27017/newswatcher'
-    RMDB_URL = os.path.join(Config.PROJECT_ROOT, "dev.db")
+    # RMDB_URL = 'sqlitea:///{0}'.format(os.path.join(Config.PROJECT_ROOT, "dev.db"))
+    RMDB_URL = 'postgresql://ddgo:ddgogogo@localhost/newswatcher'
+
+
     # DBNAME = 'newswatcher'
     # MONGODB_SETTINGS = {
     #     'db': 'newswatcher',

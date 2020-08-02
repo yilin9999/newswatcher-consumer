@@ -11,7 +11,8 @@ class NewsKafkaConsumerRMDB(NewsKafkaConsumer):
     def __init__(self):
         super().__init__(group_id='rmdb')
 
-    def store_into_db(self, data):
+    @classmethod
+    def store_into_db(cls, data):
         news_inc = 0
         try:
             newsModel = NewsModel()

@@ -4,10 +4,10 @@ from kafka_consumer.consumer_mongo.worker import NewsKafkaConsumerMongo
 from kafka_consumer.consumer_rmdb.worker import NewsKafkaConsumerRMDB
 
 
-def init_sqlite_db():
+def init_rmdb():
 
-    basic_rmdb = BasicRMDB(AppConfig.RMDB_URL)
-    basic_rmdb.init_sqlite_db()
+    basic_rmdb = BasicRMDB()
+    basic_rmdb.init_rmdb()
 
 
 def start_mongo_consumer():

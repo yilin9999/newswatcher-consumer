@@ -24,13 +24,11 @@ class NewsKafkaConsumer(metaclass=ABCMeta):
         while True:
             logger.info("Start reading...")
             for msg in self.consumer:
-
                 print("consume [{topic}]:  offset: {offset}\n{value}".format(
                         topic=AppConfig.KAFKA_TOPIC_NEWS,
                         offset=msg.offset,
                         value=json.dumps(msg.value, indent=4, ensure_ascii=False)))
-                data = msg.value["data"]
-                self.store_into_db(data=data)
+                self.store_into_db(msg.value)
 
     @abstractmethod
     def store_into_db(self, data):
